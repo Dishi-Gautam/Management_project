@@ -1,0 +1,332 @@
+Objective:
+To analyze the data set of Hotel 
+To Calculate Total bill of a customer 
+To display the customer data for a particular table 
+To delete data or records 
+To insert any data 
+To search for a particular record 
+
+
+
+
+INSERTION
+def cust_details():
+    import mysql.connector
+    myconn=mysql.connector.connect(host='localhost',user='root'
+    ,passwd=' ',database='hotel')
+    cur=myconn.cursor()
+    cust_id=int(input("Enter Customer ID:"))
+    name=input('Enter Customer Name: ')
+    phone=input('Enter Customer Phone: ')
+    id=input('Enter ID Proof provided by Cutomer: ')
+    email=input('Enter Email ID: ')
+    cur.execute('insert into 
+    cust_details values("%d","%s","%s","%s","%s")'%
+    (cust_id,name,phone,id,email))
+    print('Record Added Successfully')
+    myconn.commit()
+    cur.close()
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+def booking_date():
+    import mysql.connector
+   myconn=mysql.connector.connect
+   (host='localhost',user='root',passwd=' ',database='hotel')
+  cur=myconn.cursor()
+        cust_id=int(input("Enter Customer ID:"))
+   check_in=input('Enter check in date(YYYY-MM-DD): ')
+   check_out=input('Enter check out date(YYYY-MM-DD): ')
+   cur.execute('insert into booking_date  values
+   ("%d","%s","%s")'%(cust_id,check_in,check_out))
+   print('Record Added Successfully')
+   myconn.commit()
+   cur.close()
+---------------------------------------------------------------------------------------------------------------------------------------------------
+def room_type():
+    import mysql.connector
+    myconn=mysql.connector.connect
+   (host='localhost',user='root',passwd=' ',database='hotel')
+   cur=myconn.cursor()
+   cust_id=int(input("Enter Customer ID:"))
+   print("-----We have The Following Room Categories-----")
+   print("1.Standard: Rs.2500/-")
+   print("2.Deluxe room: Rs.5000/-")
+   print("3.Super Deluxe room: Rs.8000/-")
+   print("4.Royal suite: Rs.10000/-")
+   r=int(input('Enter Your Room Choice: '))
+   room=int(input('Enter Room Number: '))
+   n=int(input('Enter Number of Days: '))
+   if r==1:
+        rent=n*2500
+        print('Your Room Rent For Standard room: ',rent)
+     elif r==2:
+        rent=n*5000
+        print('Your Room Rent For Deluxe room: ',rent)
+    elif r==3:
+        rent=n*8000
+        print('Your Room Rent For Super Deluxe: ',rent)
+    elif r==4:
+        rent=n*10000
+        print('Your Room Rent For Royal Suite: ',rent)
+    else:
+        print('Wrong input')
+   query='insert into roomtype values ("%d","%d","%d","%d","%d")'%(cust_id,r,room,n,rent)
+    cur.execute(query)
+    myconn.commit()
+    print('Record Added Successfully')
+---------------------------------------------------------------------------------------------------------------------------------------------------
+def room_services():
+    import mysql.connector
+   myconn=mysql.connector.connect
+  (host='localhost',user='root',passwd=' ',database='hotel')
+   cur=myconn.cursor()
+   print('1.Laundary (with ironing): Rs40/-')
+    print('2.Room Cleaning: Rs150/-')
+    s=int(input('Enter your choice: '))
+    cust_id=int(input("Enter Customer ID:"))
+    bill=0
+    if s==1:
+        n=int(input('Enter number of clothes: '))
+        bill+=40*n
+        print('Your Laundary bill for',n,' clothes is ',bill)
+    elif s==2:
+        bill+=150
+        print('Your Room Cleaning bill is: ',bill)
+    else:
+        print('Invalid input')
+    cur.execute('insert into room_services values("%d","%d","%d")'%(cust_id,s,bill))
+    print('Record entered successfully')
+    myconn.commit()
+    cur.close()
+---------------------------------------------------------------------------------------------------------------------------------------------------
+def restaurant_insert():
+    import mysql.connector
+    myconn=mysql.connector.connect(host='localhost',user='root',passwd=' ',database='hotel')
+    cur=myconn.cursor()
+    print('-----BELOW IS THE PRICE FOR AN INDIVIDUAL-----')
+    print('1. Breakfast: Rs200/-')
+    print('2. Lunch/Dinner: Rs350/-')
+    n=int(input('Enter your choice: '))
+    custid=int(input('Enter Customer ID: '))
+    s=int(input('Enter number of persons: '))
+    t=int(input('Enter the times meal taken: '))
+    if n==1:
+        p=200*s*t
+        print('Your Bill: ',p)
+    elif n==2:
+        p=350*s*t
+        print('Your Bill: ',p)
+    else:
+        print('Invalid Input')
+    cur.execute('insert into restaurant values("%d","%d","%d")'%(custid,n,t))
+    myconn.commit()
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DISPLAYING
+def cust_display():
+    import mysql.connector
+    myconn=mysql.connector.connect
+   (host='localhost',user='root',passwd=' ',database='hotel')
+   cur=myconn.cursor()
+   cur.execute('select * from cust_details')
+   for i in cur:
+       print(i)
+   cur.close()
+---------------------------------------------------------------------------------------------------------------------------------------------------
+def booking_display():
+    import mysql.connector
+   myconn=mysql.connector.connect
+   (host='localhost',user='root',passwd=' ',database='hotel')
+   cur=myconn.cursor()
+   cur.execute('select * from booking_date')
+   for i in cur:
+        print(i)
+   cur.close()
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+def room_display():
+    import mysql.connector
+    myconn=mysql.connector.connect
+    (host='localhost',user='root',passwd=' ',database='hotel')
+    cur=myconn.cursor()
+    cur.execute('select * from room_services')
+    for i in cur:
+        print(i)
+    cur.close()
+---------------------------------------------------------------------------------------------------------------------------------------------------
+def roomtype_display():
+    import mysql.connector
+    myconn=mysql.connector.connect
+   (host='localhost',user='root',passwd=' ',database='hotel')
+   cur=myconn.cursor()
+   for i in cur:
+        print(i)
+    cur.close()
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+def restaurant():
+    import mysql.connector
+    myconn=mysql.connector.connect
+    (host='localhost',user='root',passwd=' ',database='hotel')
+    cur=myconn.cursor()
+    cur.execute('select * from restaurant')
+    for i in cur:
+        print(i)
+    cur.close()
+
+    
+DELETE
+def delete():
+    import mysql.connector
+   myconn=mysql.connector.connect
+   (host='localhost',user='root',passwd=' ',database='hotel')
+   cur=myconn.cursor()
+   custid=int(input('Enter Customer ID: '))
+  print("""1: DELETE FROM CUSTOMER DETAILS2: DELETE FROM   BOOKING\n3: DELETE FROM ROOM_TYPE\n4: DELETE FROM   RESTAURANT\n5: DELETE FROM ROOM_SERVICES\n""")
+    ch=int(input("Enter the choice of the table from you want to delete the record:"))
+    if ch==1:
+        cur.execute('delete from booking_date where Cust_id="%d"'%custid)
+        print('Record Deleted')
+    elif ch==2:
+        cur.execute('delete from roomtype where Cust_id="%d"'%custid)
+        print('Record Deleted')
+    elif ch==3:
+        cur.execute('delete from restaurant where Cust_id="%d"'%custid)
+        print('Record Deleted')
+    elif ch==4:
+        cur.execute('delete from room_services where Cust_id="%d"'%custid)
+        print('Record Deleted')
+    else:
+        print('Invalid Input')
+    myconn.commit()
+    cur.close()
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DISPLAYING A SPECIFIC RECORD
+
+def search():
+    import mysql.connector
+   myconn=mysql.connector.connect
+   (host="localhost",user="root",passwd=" ",database="hotel")
+    cur=myconn.cursor()
+    r=int(input("Enter Customer ID: "))
+    print('a.''Customer Details')
+    print('b.''Booking Date')
+    print('c.''Restaurant')
+    print('d.''Roomtype')
+    print('e.''Room Services')
+    u=input('Enter your choice: ')
+    if u=='a':
+        cur.execute("select * from cust_details where Cust_id='%d'" %r)
+        print('Cust_id  Name  Phone  ID_Proof  Email')  
+        for i in cur:
+            print(i)
+    elif u=='b':
+        cur.execute("select * from booking_date where Cust_id='%d'"%r)
+        print('Cust_id  Check_in  Check_out')
+        for j in cur:
+            print(j)
+    elif u=='c':
+        cur.execute("select * from restaurant where Cust_id='%d'" %r)
+        print('Cust_id  Choice  Meal_occurence')
+        for k in cur:
+            print(k)
+    elif u=='d':
+        cur.execute("select * from roomtype where Cust_id='%d'" %r)
+        print('Cust_id  Room_type  Room_no  Days  Total')  
+        for l in cur:
+            print(l)
+    elif u=='e':
+        cur.execute("select * from room_services 
+        where Cust_id='%d'"%r)
+        print('Cust_id  Service  Total')
+        for m in cur:
+            print(m)
+    else:
+        print('Invalid input')
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL
+def TotalBill():
+    import mysql.connector
+    myconn=mysql.connector.connect
+    (host='localhost',user='root',passwd=' ',database='hotel')
+    cur=myconn.cursor()
+    n=int(input('Enter Customer ID: '))
+    cur.execute('select Name from cust_details 
+    where Cust_id="%d"'%n)
+    for x in cur:
+        print('      Customer Name: ',str(x))
+    cur.execute('select Total from roomtype where Cust_id="%d"'%n)
+    for y in cur:
+        print('      Room Rent: ',str(y))
+    cur.execute('select Total from room_services 
+   where Cust_id="%d"'%n)
+   for z in cur:
+        print('      Room Service Bill: ',str(z))
+    cur.execute('select Choice,Meal_occurence from restaurant where Cust_id="%d"'%n)
+    for a in cur:
+        if a[0]==1:
+            s=int(a[1])*200
+            print('      Restaurant Bill: ',s)
+            T=int(y)+int(z)+s
+            print('TOTAL BILL: ',T)
+        elif a[0]==2:
+             r=int(a[1])*350
+             print('     Restaurant Bill: ',r)
+             print('TOTAL BILL: ',T)
+    print('-------------------------------------')
+    print("      Thank You Visit Again :)      ")
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+print('-------WELCOME TO HOTEL TRANSYLVANIA------')
+print('1.INSERTION OF RECORD')
+print('2.DISPLAY RECORDS')
+print('3.DELETE A RECORD')
+print('4.TOTAL BILL')
+choice=int(input('Enter your choice: '))
+if choice==1:
+    print('    Kindly enter record to Customer details first    ')
+    cust_details()
+    print('a.''To add record in Booking table')
+    print('b.''To add record in Restaurant table')
+    print('c.''To add record in Roomtype table')
+    print('d.''To add record in Room Service table')
+    s=input('Enter your choice:')
+    if s=='a':
+          booking_date()
+    elif s=='b':
+          restaurant_insert()
+    elif s=='c':
+          room_type()
+    elif s=='d':
+          room_services()
+    else:
+          print('Invalid Input')
+elif choice==2:
+    print('a.''To display Customer Details')
+    print('b.''To display Booking date')
+    print('c.''To display Restaurant record')
+    print('d.''To display Roomtype record ')
+    print('e.''To display Room Service record')
+    a=input('Enter your choice: ')
+    if a=='a':
+          cust_display()
+    elif a=='b':
+          booking_display()
+    elif a=='c':
+          restaurant_display()
+    elif a=='d':
+          roomtype_display()
+    elif a=='e':
+          room_display()
+    else:
+          print('Invalid Input')
+elif choice==3:
+          delete()
+elif choice==4:
+          TotalBill()
+else:
+          print('Invalid Input')
+
